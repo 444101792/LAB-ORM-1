@@ -1,0 +1,34 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Home - Blogger{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <h1 class="text-3xl font-bold text-gray-900 border-b pb-4">
+        Latest Posts
+    </h1>
+
+    {% if not posts_list %}
+        <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+            <p class="text-gray-600 text-lg">No posts to display yet.</p>
+            <p class="text-gray-500 mt-2">Why not be the first to <a href="{% url 'add_post' %}" class="text-blue-600 hover:underline">add a new post</a>?</p>
+        </div>
+    {% endif %}
+
+    {% for post in posts_list %}
+    <article class="bg-white p-6 rounded-lg shadow-sm transition duration-300 hover:shadow-md">
+        <header class="mb-4">
+            <h2 class="text-2xl font-bold text-gray-800">
+                {{ post.title }}
+            </h2>
+            <p class="text-sm text-gray-500 mt-2">
+                Published on: {{ post.published_at|date:"d M Y" }} at {{ post.published_at|time:"H:i" }}
+            </p>
+        </header>
+        <div class="text-gray-700 leading-relaxed post-content">
+            {{ post.content|linebreaksbr }}
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% endblock %}
