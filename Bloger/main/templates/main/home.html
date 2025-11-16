@@ -1,34 +1,43 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Home - Blogger{% endblock %}
+{% block title %}Blogger - Home{% endblock %}
 
 {% block content %}
-<div class="space-y-8">
-    <h1 class="text-3xl font-bold text-gray-900 border-b pb-4">
-        Latest Posts
-    </h1>
 
-    {% if not posts_list %}
-        <div class="bg-white p-6 rounded-lg shadow-sm text-center">
-            <p class="text-gray-600 text-lg">No posts to display yet.</p>
-            <p class="text-gray-500 mt-2">Why not be the first to <a href="{% url 'add_post' %}" class="text-blue-600 hover:underline">add a new post</a>?</p>
-        </div>
-    {% endif %}
+<div class="space-y-6">
 
     {% for post in posts_list %}
     <article class="bg-white p-6 rounded-lg shadow-sm transition duration-300 hover:shadow-md">
         <header class="mb-4">
+            
             <h2 class="text-2xl font-bold text-gray-800">
-                {{ post.title }}
+                <a href="{% url 'post_detail' post.pk %}" class="hover:text-blue-600 transition duration-200">
+                    {{ post.title }}
+                </a>
             </h2>
             <p class="text-sm text-gray-500 mt-2">
                 Published on: {{ post.published_at|date:"d M Y" }} at {{ post.published_at|time:"H:i" }}
             </p>
         </header>
+        
+        {% if post.image %}
+            <div class="mb-4">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-auto rounded-lg object-cover">
+            </div>
+        {% endif %}
+
         <div class="text-gray-700 leading-relaxed post-content">
             {{ post.content|linebreaksbr }}
         </div>
-    </article>
+
+        <footer class="mt-4 pt-4 border-t border-gray-200 text-right">
+            <a href="{% url 'post_detail' post.pk %}" class="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition duration-200">
+                Post Details
+            </a>
+        </footer>
+        </article>
     {% endfor %}
+    
 </div>
+
 {% endblock %}

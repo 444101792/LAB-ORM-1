@@ -1,3 +1,5 @@
+# main/models.py
+
 from django.db import models
 from django.utils import timezone
 
@@ -11,6 +13,16 @@ class Post(models.Model):
     content = models.TextField(
         verbose_name="Content"
     )
+    
+
+    image = models.ImageField(
+        upload_to='post_images/',  
+        null=True,                 
+        blank=True,                
+        verbose_name="Post Image"
+    )
+
+    
     is_published = models.BooleanField(
         default=True,
         verbose_name="Is Published?"
